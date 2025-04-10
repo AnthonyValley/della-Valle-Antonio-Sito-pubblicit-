@@ -19,6 +19,10 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
+    .error {
+      color: red;
+      font-size: 0.875rem;
+    }
   </style>
 </head>
 <body>
@@ -66,15 +70,18 @@
     <div id="formCarta">
       <div class="mb-3">
         <label class="form-label">Numero Carta</label>
-        <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+        <input type="text" class="form-control" placeholder="1234 5678 9012 3456" id="numeroCarta" required>
+        <div id="errorCarta" class="error" style="display: none;">Il numero della carta è obbligatorio.</div>
       </div>
       <div class="mb-3">
         <label class="form-label">Scadenza</label>
-        <input type="text" class="form-control" placeholder="MM/AA">
+        <input type="text" class="form-control" placeholder="MM/AA" id="scadenza" required>
+        <div id="errorScadenza" class="error" style="display: none;">La scadenza è obbligatoria.</div>
       </div>
       <div class="mb-3">
         <label class="form-label">CVC</label>
-        <input type="text" class="form-control" placeholder="123">
+        <input type="text" class="form-control" placeholder="123" id="cvc" required>
+        <div id="errorCvc" class="error" style="display: none;">Il CVC è obbligatorio.</div>
       </div>
     </div>
 
@@ -82,23 +89,27 @@
     <div id="formBonifico" style="display: none;">
       <div class="mb-3">
         <label class="form-label">Nome Beneficiario</label>
-        <input type="text" class="form-control" placeholder="Nome Cognome">
+        <input type="text" class="form-control" placeholder="Nome Cognome" id="beneficiario" required>
+        <div id="errorBeneficiario" class="error" style="display: none;">Il nome del beneficiario è obbligatorio.</div>
       </div>
       <div class="mb-3">
         <label class="form-label">IBAN</label>
-        <input type="text" class="form-control" placeholder="IT00A1234567890123456789012">
+        <input type="text" class="form-control" placeholder="IT00A1234567890123456789012" id="iban" required>
+        <div id="errorIban" class="error" style="display: none;">L'IBAN è obbligatorio.</div>
       </div>
       <div class="mb-3">
         <label class="form-label">Importo</label>
-        <input type="text" class="form-control" placeholder="€100.00">
+        <input type="text" class="form-control" placeholder="€100.00" id="importo" required>
+        <div id="errorImporto" class="error" style="display: none;">L'importo è obbligatorio.</div>
       </div>
       <div class="mb-3">
         <label class="form-label">Causale</label>
-        <input type="text" class="form-control" placeholder="Pagamento acquisto Ray-Ban">
+        <input type="text" class="form-control" placeholder="Pagamento acquisto Ray-Ban" id="causale" required>
+        <div id="errorCausale" class="error" style="display: none;">La causale è obbligatoria.</div>
       </div>
     </div>
 
-    <button class="btn btn-danger w-100 mt-3">Conferma Pagamento</button>
+    <button class="btn btn-danger w-100 mt-3" onclick="confermaPagamento()">Conferma Pagamento</button>
   </div>
 
   <script>
@@ -106,6 +117,55 @@
       const metodo = document.getElementById('metodoPagamento').value;
       document.getElementById('formCarta').style.display = metodo === 'carta' ? 'block' : 'none';
       document.getElementById('formBonifico').style.display = metodo === 'bonifico' ? 'block' : 'none';
+    }
+
+    function confermaPagamento() {
+      let valido = true;
+
+      // Reset errori
+      const errorElements = document.querySelectorAll('.error');
+      errorElements.forEach(error => error.style.display = 'none');
+
+      // Validazione carta
+      if (document.getElementById('metodoPagamento').value === 'carta') {
+        if (document.getElementById('numeroCarta').value === "") {
+          document.getElementById('errorCarta').style.display = 'block';
+          valido = false;
+        }
+        if (document.getElementById('scadenza').value === "") {
+          document.getElementById('errorScadenza').style.display = 'block';
+          valido = false;
+        }
+        if (document.getElementById('cvc').value === "") {
+          document.getElementById('errorCvc').style.display = 'block';
+          valido = false;
+        }
+      }
+
+      // Validazione bonifico
+      if (document.getElementById('metodoPagamento').value === 'bonifico') {
+        if (document.getElementById('beneficiario').value === "") {
+          document.getElementById('errorBeneficiario').style.display = 'block';
+          valido = false;
+        }
+        if (document.getElementById('iban').value === "") {
+          document.getElementById('errorIban').style.display = 'block';
+          valido = false;
+        }
+        if (document.getElementById('importo').value === "") {
+          document.getElementById('errorImporto').style.display = 'block';
+          valido = false;
+        }
+        if (document.getElementById('causale').value === "") {
+          document.getElementById('errorCausale').style.display = 'block';
+          valido = false;
+        }
+      }
+
+      if (valido) {
+        alert("Pagamento confermato!");
+        // Aggiungere logica per procedere con il pagamento
+      }
     }
   </script>
 
