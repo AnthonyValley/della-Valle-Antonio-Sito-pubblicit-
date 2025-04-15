@@ -248,8 +248,7 @@ label {
 
 /* carrello.html specific styles */
 .cart-item {
-    border-bottom: 1px solid #ddd;
-    padding: 20px 0;
+    border-bottom: 2px solid #ec6363;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
